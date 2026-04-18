@@ -27,9 +27,7 @@ def _parse_string(data: str) -> list[list[Symbol]]:
     width = len(rows[0])
     for i, row in enumerate(rows):
         if len(row) != width:
-            raise PatternShapeError(
-                f"Row {i} has {len(row)} cells but row 0 has {width} cells"
-            )
+            raise PatternShapeError(f"Row {i} has {len(row)} cells but row 0 has {width} cells")
     return rows
 
 
@@ -39,22 +37,20 @@ def _parse_list(data: list[list[Symbol]]) -> list[list[Symbol]]:
     width = len(data[0])
     for i, row in enumerate(data):
         if len(row) != width:
-            raise PatternShapeError(
-                f"Row {i} has {len(row)} cells but row 0 has {width} cells"
-            )
+            raise PatternShapeError(f"Row {i} has {len(row)} cells but row 0 has {width} cells")
     return [list(row) for row in data]
 
 
-def _rotate_cw(grid: list[list[Symbol]]) -> list[list[Symbol]]:
+def _rotate_ccw(grid: list[list[Symbol]]) -> list[list[Symbol]]:
     rows = len(grid)
     cols = len(grid[0]) if rows > 0 else 0
-    return [[grid[rows - 1 - r][c] for r in range(rows)] for c in range(cols)]
+    return [[grid[j][cols - 1 - i] for j in range(rows)] for i in range(cols)]
 
 
 class CellPattern:
     """A rectangular symbolic cell grid.
 
-    rot90(n) convention: positive n = clockwise.
+    rot90(n) convention: positive n = counterclockwise (matches math / NumPy).
     """
 
     def __init__(self, data: str | list[list[Symbol]]) -> None:
@@ -78,11 +74,11 @@ class CellPattern:
         return [list(row) for row in self._grid]
 
     def rot90(self, n: int = 1) -> "CellPattern":
-        """Return a new CellPattern rotated clockwise by n * 90 degrees."""
+        """Return a new CellPattern rotated counterclockwise by n * 90 degrees."""
         n = n % 4
         g = [list(row) for row in self._grid]
         for _ in range(n):
-            g = _rotate_cw(g)
+            g = _rotate_ccw(g)
         result = object.__new__(CellPattern)
         result._grid = g
         return result
@@ -121,9 +117,7 @@ class CellPattern:
         new_width = left + self.width + right
         top_rows = [[value] * new_width for _ in range(top)]
         bottom_rows = [[value] * new_width for _ in range(bottom)]
-        middle_rows = [
-            [value] * left + list(row) + [value] * right for row in self._grid
-        ]
+        middle_rows = [[value] * left + list(row) + [value] * right for row in self._grid]
         result = object.__new__(CellPattern)
         result._grid = top_rows + middle_rows + bottom_rows
         return result
@@ -131,9 +125,7 @@ class CellPattern:
     def replace(self, old: Symbol, new: Symbol) -> "CellPattern":
         """Return a new CellPattern with all occurrences of old replaced by new."""
         result = object.__new__(CellPattern)
-        result._grid = [
-            [new if cell == old else cell for cell in row] for row in self._grid
-        ]
+        result._grid = [[new if cell == old else cell for cell in row] for row in self._grid]
         return result
 
     def used_symbols(self) -> set[str]:

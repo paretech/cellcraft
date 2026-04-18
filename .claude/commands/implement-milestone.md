@@ -19,7 +19,7 @@ Implement the CellCraft milestone specified in the argument (e.g. `/implement-mi
 - All public methods must be fully typed (Python 3.12+).
 - Use `unittest.TestCase` for all tests — no bare pytest functions.
 - Raise the specific custom exception from `cellcraft/errors.py` that matches each error case (never raise a raw `ValueError` or `Exception`).
-- `rot90(1)` always means clockwise 90 degrees.
+- `rot90(1)` always means counterclockwise 90 degrees (matches math / NumPy convention).
 - Transforms (`rot90`, `flip_x`, `flip_y`, `tile`, `pad`, `replace`) must return new objects, not mutate in place.
 - Do not write comments that describe what the code does — only write a comment when there is a non-obvious constraint or invariant.
 - Do not silently clip or swallow errors; prefer explicit validation.

@@ -25,16 +25,20 @@ Full API specification and implementation roadmap are in [docs/design/](docs/des
 - Prefer explicit validation and descriptive exceptions.
 - Add or update tests for every behavioral change.
 - Do not silently change the spec; propose spec updates separately.
+- All commands must be expressed as Makefile targets when possible.
+- Prefer `make <target>` over raw commands.
+- If a required command is not in the Makefile, propose adding a Makefile target instead.
 - Every time you add a new feature, add a test, an example and update the readme.
   - For example, when you add `rot90`, also add a simple example snippet showing `L_shape.rot90(1)`. This keeps the API from drifting into something only the implementation understands.
 
 ## Code quality
 
 - Python 3.12+
-- `python -m unittest` (no pytest). Run tests with: `python -m unittest discover -s tests -v`
-- ruff. Run linter with: `ruff check cellcraft/ tests/`
-- mypy for type checking
-- Assumes the project venv is activated before running these commands.
+- `python -m unittest` (no pytest). Run tests with: `make test`
+- ruff. Run linter with: `make lint`
+- mypy for type checking: `make typecheck`
+- All quality gates: `make check`
+- `rot90(1)` means counterclockwise 90° (matches math / NumPy convention).
 - Keep modules focused and small.
 - Favor immutable return-new-object behavior for transforms where practical.
 

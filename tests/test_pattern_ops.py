@@ -1,4 +1,7 @@
-"""Tests for CellPattern transforms: rot90, flip, tile, pad, replace, used_symbols."""
+"""Tests for CellPattern transforms: rot90, flip, tile, pad, replace, used_symbols.
+
+rot90(n) convention: positive n = counterclockwise (matches math / NumPy).
+"""
 
 import unittest
 
@@ -11,28 +14,28 @@ class TestRot90(unittest.TestCase):
         # CD
         self.p = CellPattern("AB;CD")
 
-    def test_rot90_1_clockwise(self):
-        # CW 90: left column bottom-to-top becomes top row
-        # CA
-        # DB
+    def test_rot90_1_ccw(self):
+        # CCW 90°: top column goes to right side
+        # BD
+        # AC
         r = self.p.rot90(1)
-        assert r.grid == [["C", "A"], ["D", "B"]]
+        assert r.grid == [["B", "D"], ["A", "C"]]
         assert r.width == 2
         assert r.height == 2
 
     def test_rot90_2(self):
-        # 180°: rows reversed, each row reversed
+        # 180° is the same CW or CCW
         # DC
         # BA
         r = self.p.rot90(2)
         assert r.grid == [["D", "C"], ["B", "A"]]
 
     def test_rot90_3(self):
-        # 270° CW = 90° CCW
-        # BD
-        # AC
+        # 270° CCW = 90° CW
+        # CA
+        # DB
         r = self.p.rot90(3)
-        assert r.grid == [["B", "D"], ["A", "C"]]
+        assert r.grid == [["C", "A"], ["D", "B"]]
 
     def test_rot90_4_is_identity(self):
         r = self.p.rot90(4)
@@ -43,7 +46,7 @@ class TestRot90(unittest.TestCase):
         assert r.grid == self.p.grid
 
     def test_rot90_negative_1(self):
-        # -1 mod 4 = 3, same as rot90(3)
+        # -1 mod 4 = 3, same as rot90(3) = 90° CW
         r = self.p.rot90(-1)
         assert r.grid == self.p.rot90(3).grid
 
@@ -52,27 +55,27 @@ class TestRot90(unittest.TestCase):
         # DEF
         p = CellPattern("ABC;DEF")
         r = p.rot90(1)
-        # CW 90 on 2-row, 3-col -> 3-row, 2-col
-        # D A
-        # E B
-        # F C
+        # CCW 90° on 2-row, 3-col -> 3-row, 2-col
+        # CF
+        # BE
+        # AD
         assert r.width == 2
         assert r.height == 3
-        assert r.grid == [["D", "A"], ["E", "B"], ["F", "C"]]
+        assert r.grid == [["C", "F"], ["B", "E"], ["A", "D"]]
 
     def test_rot90_returns_new_object(self):
         r = self.p.rot90(1)
         assert r is not self.p
 
-    def test_rot90_l_shape_cw(self):
+    def test_rot90_l_shape_ccw(self):
         # X_
         # XX
         L = CellPattern("X_;XX")
         r = L.rot90(1)
-        # CW 90:
-        # XX
+        # CCW 90°:
         # _X
-        assert r.grid == [["X", "X"], ["X", "_"]]
+        # XX
+        assert r.grid == [["_", "X"], ["X", "X"]]
 
 
 class TestFlip(unittest.TestCase):
