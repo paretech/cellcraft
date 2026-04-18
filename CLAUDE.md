@@ -2,6 +2,36 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+The name of this project is "CellCraft". 
+
+## Project purpose
+This repo implements a Python library for symbolic cell-based pattern generation and raster composition for camera and display test artifacts.
+
+## Source of truth
+- docs/spec.md
+- docs/implementation-plan.md
+
+## Working style
+- Follow the implementation plan in milestone order.
+- Prefer small, reviewable diffs.
+- Do not implement future phases unless asked.
+- Keep public APIs typed.
+- Keep logical domain separate from rendering and scene composition.
+- Prefer explicit validation and descriptive exceptions.
+- Add or update tests for every behavioral change.
+- Do not silently change the spec; propose spec updates separately.
+
+## Code quality
+- Python 3.11+
+- pytest
+- ruff
+- mypy
+- Keep modules focused and small.
+- Favor immutable return-new-object behavior for transforms where practical.
+
+## When unsure
+Ask for the smallest clarification needed or stop with a short note in the commit/diff summary.
+
 ## Commands
 
 ```bash
