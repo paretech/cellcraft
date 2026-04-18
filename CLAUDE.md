@@ -25,6 +25,8 @@ Full API specification and implementation roadmap are in [docs/design/](docs/des
 - Prefer explicit validation and descriptive exceptions.
 - Add or update tests for every behavioral change.
 - Do not silently change the spec; propose spec updates separately.
+- Every time you add a new feature, add a test, an example and update the readme.
+  - For example, when you add `rot90`, also add a simple example snippet showing `L_shape.rot90(1)`. This keeps the API from drifting into something only the implementation understands.
 
 ## Code quality
 

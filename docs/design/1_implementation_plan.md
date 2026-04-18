@@ -36,29 +36,26 @@ README.md
 
 Use:
 
-- Python 3.11+
+- Python 3.12+
 - Pillow
-- pytest
+- unittest
 - ruff
-- mypy or pyright
 - optionally numpy for test assertions only
 
 Minimal `pyproject.toml` dependencies:
 
 ```toml
 [project]
-name = "cell-patterns"
+name = "cellcraft"
 version = "0.1.0"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "Pillow>=10.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0.0",
     "ruff>=0.5.0",
-    "mypy>=1.10.0",
     "numpy>=1.26.0",
 ]
 
@@ -67,10 +64,6 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
-
-[tool.mypy]
-python_version = "3.11"
-strict = true
 ```
 
 ## 3. Module responsibilities
@@ -237,6 +230,7 @@ Test:
 Important: choose and document `rot90` convention once and test against it consistently.
 
 Recommended convention:
+
 - `rot90(1)` = clockwise 90 degrees
 
 ---
@@ -419,7 +413,7 @@ Write tests that execute the same logic as the examples without relying on visua
 Check:
 
 - image sizes
-n- expected number of exported files
+- expected number of exported files
 - expected filenames
 - no missing palette symbols
 - center and corner assets generated
@@ -433,7 +427,7 @@ def test_scene_1024x768_builds(tmp_path: Path):
     # assert 9 files exist
 ```
 
-This is where your spec and implementation stay connected.
+Examples are how the spec and implementation stay connected.
 
 ---
 
@@ -642,9 +636,9 @@ Definition of done:
 
 Only after those 10 should you start `Scene`.
 
----
+## Next Steps
 
-# Suggested first exact example to code
+### Suggested first exact example to code
 
 Before the big 1024×768 example, build this:
 
@@ -665,11 +659,11 @@ renderer = PatternRenderer(
 img = renderer.render(canvas)
 ```
 
-If that feels good, your core API is healthy.
+If that feels good, the core API is healthy.
 
 ---
 
-# Recommended code quality rules
+### Recommended code quality rules
 
 - Make logical objects immutable if practical, or at least return new objects for transforms.
 - Keep parsing separate from rendering.
@@ -680,7 +674,7 @@ If that feels good, your core API is healthy.
 
 ---
 
-# Recommended documentation plan
+### Recommended documentation plan
 
 Write these as you build:
 
@@ -691,15 +685,13 @@ Write these as you build:
 
 - docstrings on all public classes and methods
 
-- `docs/spec.md`
-  - your full design spec
+- `docs/design/0_design_spec.md`
+  - the full design spec
 
 - `examples/`
   - runnable scripts that match the README and spec
 
----
-
-# One strong recommendation for testing discipline
+#### One strong recommendation for testing discipline
 
 Every time you add a new feature, add:
 
@@ -712,7 +704,7 @@ That keeps the API from drifting into something only the implementation understa
 
 ---
 
-# Final recommended build order
+### Final recommended build order
 
 Build in this order:
 
@@ -729,11 +721,10 @@ That is the lowest-risk path.
 
 ---
 
-# Next possible follow-up deliverables
+### Next possible follow-up deliverables
 
 - Task checklist formatted as GitHub issues
 - Staged `TODO.md` for the repo
 - Initial code skeleton matching this plan
 - Pytest starter suite
 - CI workflow using GitHub Actions
-
