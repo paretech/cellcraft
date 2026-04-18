@@ -91,11 +91,15 @@ class CellPattern:
         return [list(row) for row in self._grid]
 
     def rot90(self, n: int = 1) -> "CellPattern":
-        """Return a new CellPattern rotated counterclockwise by n * 90 degrees."""
-        n = n % 4
+        """Rotate by 90-degree steps.
+
+        Positive n: counterclockwise (matches math / NumPy).
+        Negative n: clockwise.
+        """
+        rotate = _rotate_cw if n < 0 else _rotate_ccw
         g = [list(row) for row in self._grid]
-        for _ in range(n):
-            g = _rotate_ccw(g)
+        for _ in range(abs(n) % 4):
+            g = rotate(g)
         result = object.__new__(CellPattern)
         result._grid = g
         return result

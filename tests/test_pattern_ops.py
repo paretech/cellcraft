@@ -45,10 +45,17 @@ class TestRot90(unittest.TestCase):
         r = self.p.rot90(0)
         assert r.grid == self.p.grid
 
-    def test_rot90_negative_1(self):
-        # -1 mod 4 = 3, same as rot90(3) = 90° CW
+    def test_rot90_negative_1_is_cw(self):
+        # rot90(-1) = 1 step CW = same result as 3 steps CCW
         r = self.p.rot90(-1)
         assert r.grid == self.p.rot90(3).grid
+
+    def test_rot90_negative_explicit_cw(self):
+        # AB / CD rotated 1 step CW -> CA / DB
+        assert self.p.rot90(-1).grid == [["C", "A"], ["D", "B"]]
+
+    def test_rot90_negative_4_is_identity(self):
+        assert self.p.rot90(-4).grid == self.p.grid
 
     def test_rot90_non_square(self):
         # ABC

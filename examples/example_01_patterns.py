@@ -40,7 +40,10 @@ p = cc.CellPattern("AB;CD")
 show("\nbase", p)
 
 for n in (1, 2, 3):
-    show(f"rot90({n})  — counterclockwise {n * 90}°", p.rot90(n))
+    show(f"rot90({n})   — counterclockwise {n * 90}°", p.rot90(n))
+
+for n in (-1, -2, -3):
+    show(f"rot90({n})  — clockwise {abs(n) * 90}°", p.rot90(n))
 
 # ---------------------------------------------------------------------------
 # Flips
