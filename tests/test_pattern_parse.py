@@ -98,5 +98,27 @@ BA
         assert p.height == 3
 
 
+class TestPatternStrRepr(unittest.TestCase):
+    def test_str_basic(self):
+        p = CellPattern("AB;CD")
+        assert str(p) == "A B\nC D"
+
+    def test_str_none_renders_as_dot(self):
+        p = CellPattern([["A", None], [None, "B"]])
+        assert str(p) == "A ·\n· B"
+
+    def test_repr_semicolon_form(self):
+        p = CellPattern("AB;CD")
+        assert repr(p) == 'CellPattern("AB;CD")'
+
+    def test_repr_roundtrip(self):
+        p = CellPattern("AB;CD")
+        assert CellPattern("AB;CD").grid == eval(repr(p)).grid
+
+    def test_repr_with_none_falls_back_to_list(self):
+        p = CellPattern([["A", None], ["B", "C"]])
+        assert repr(p).startswith("CellPattern([")
+
+
 if __name__ == "__main__":
     unittest.main()

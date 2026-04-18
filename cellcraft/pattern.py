@@ -47,6 +47,12 @@ def _rotate_ccw(grid: list[list[Symbol]]) -> list[list[Symbol]]:
     return [[grid[j][cols - 1 - i] for j in range(rows)] for i in range(cols)]
 
 
+def _rotate_cw(grid: list[list[Symbol]]) -> list[list[Symbol]]:
+    rows = len(grid)
+    cols = len(grid[0]) if rows > 0 else 0
+    return [[grid[rows - 1 - j][i] for j in range(rows)] for i in range(cols)]
+
+
 class CellPattern:
     """A rectangular symbolic cell grid.
 
@@ -60,6 +66,17 @@ class CellPattern:
             self._grid = _parse_list(data)
         else:
             raise PatternParseError(f"Unsupported input type: {type(data)}")
+
+    def __str__(self) -> str:
+        return "\n".join(
+            " ".join(c if c is not None else "·" for c in row)
+            for row in self._grid
+        )
+
+    def __repr__(self) -> str:
+        if any(cell is None for row in self._grid for cell in row):
+            return f"CellPattern({self._grid!r})"
+        return 'CellPattern("' + ";".join("".join(row) for row in self._grid) + '")'
 
     @property
     def width(self) -> int:

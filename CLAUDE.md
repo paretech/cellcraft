@@ -26,9 +26,9 @@ Full API specification and implementation roadmap are in [docs/design/](docs/des
 - Add or update tests for every behavioral change.
 - Do not silently change the spec; propose spec updates separately.
 - All commands must be expressed as Makefile targets when possible.
-- Prefer `make <target>` over raw commands.
+- Prefer `make <target>` over raw commands, including running scripts (e.g. `make example` not `venv/bin/python examples/...`).
 - If a required command is not in the Makefile, propose adding a Makefile target instead.
-- Every time you add a new feature, add a test, an example and update the readme.
+- Every time you add a new feature, add a test, add an example and update the readme.
   - For example, when you add `rot90`, also add a simple example snippet showing `L_shape.rot90(1)`. This keeps the API from drifting into something only the implementation understands.
 
 ## Code quality

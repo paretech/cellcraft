@@ -1,76 +1,105 @@
 """Example 01: Define and inspect basic CellPatterns.
 
 Demonstrates: parsing, rot90, flip_x, flip_y, tile, pad, replace, used_symbols.
+All transforms use the same base pattern (AB;CD) so the effect is easy to follow.
 """
 
 import cellcraft as cc
 
-# --- Parsing forms ---
 
-checker = cc.CellPattern("AB;BA")
-print("Checker 2x2 (semicolon form):")
-for row in checker.grid:
-    print(" ".join(str(c) for c in row))
+def show(label: str, pat: cc.CellPattern) -> None:
+    print(f"{label}:")
+    for line in str(pat).splitlines():
+        print("  " + line)
 
-checker_ml = cc.CellPattern("""
-    AB
-    BA
-""")
-print("\nChecker 2x2 (multiline dedent):")
-for row in checker_ml.grid:
-    print(" ".join(str(c) for c in row))
 
-from_list = cc.CellPattern([["A", "B"], ["B", "A"]])
-print("\nChecker 2x2 (list form):")
-for row in from_list.grid:
-    print(" ".join(str(c) for c in row))
-
-# --- Tiling ---
-
-checker_4x4 = checker.tile(2, 2)
-print(f"\nChecker tiled 2x2 -> size {checker_4x4.width}x{checker_4x4.height}:")
-for row in checker_4x4.grid:
-    print(" ".join(str(c) for c in row))
-
-# --- Rotations (clockwise) ---
-
-L = cc.CellPattern("X_;XX")
-print("\nL-shape base:")
-for row in L.grid:
-    print(" ".join(str(c) for c in row))
-
-for n in range(1, 4):
-    r = L.rot90(n)
-    print(f"\nL.rot90({n}) (clockwise {n*90}°):")
-    for row in r.grid:
-        print(" ".join(str(c) for c in row))
-
-# --- Flips ---
+# ---------------------------------------------------------------------------
+# Parsing — three equivalent ways to define the same pattern
+# ---------------------------------------------------------------------------
 
 p = cc.CellPattern("AB;CD")
-print("\nflip_x (horizontal mirror):")
-for row in p.flip_x().grid:
-    print(" ".join(str(c) for c in row))
+show("CellPattern('AB;CD')  — semicolon form", p)
 
-print("\nflip_y (vertical mirror):")
-for row in p.flip_y().grid:
-    print(" ".join(str(c) for c in row))
+p = cc.CellPattern("AB\nCD")
+show("\nCellPattern('AB\\nCD') — newline form", p)
 
-# --- Pad ---
+p = cc.CellPattern("""
+    AB
+    CD
+""")
+show("\nCellPattern(multiline string)", p)
 
-padded = checker.pad(left=1, top=1, right=1, bottom=1, value=".")
-print(f"\nChecker padded 1 cell on each side -> size {padded.width}x{padded.height}:")
-for row in padded.grid:
-    print(" ".join(str(c) for c in row))
+p = cc.CellPattern([["A", "B"], ["C", "D"]])
+show("\nCellPattern([[...]])  — list form", p)
 
-# --- Replace ---
+# ---------------------------------------------------------------------------
+# Rotations (counterclockwise, matching math / NumPy)
+# ---------------------------------------------------------------------------
 
-replaced = L.replace("_", None)
-print("\nL-shape with '_' replaced by None:")
-for row in replaced.grid:
-    print(" ".join(str(c) if c is not None else "·" for c in row))
+p = cc.CellPattern("AB;CD")
+show("\nbase", p)
 
-# --- used_symbols ---
+for n in (1, 2, 3):
+    show(f"rot90({n})  — counterclockwise {n * 90}°", p.rot90(n))
 
-print(f"\nSymbols in checker: {checker.used_symbols()}")
-print(f"Symbols in L-shape: {L.used_symbols()}")
+# ---------------------------------------------------------------------------
+# Flips
+# ---------------------------------------------------------------------------
+
+show("\nbase", p)
+show("flip_x  — horizontal mirror (left ↔ right)", p.flip_x())
+
+show("\nbase", p)
+show("flip_y  — vertical mirror (top ↔ bottom)", p.flip_y())
+
+# ---------------------------------------------------------------------------
+# Tile
+# ---------------------------------------------------------------------------
+
+show("\nbase", p)
+t = p.tile(2, 2)
+show(f"tile(2, 2)  — {t.width}×{t.height} cells", t)
+
+# ---------------------------------------------------------------------------
+# Pad
+# ---------------------------------------------------------------------------
+
+show("\nbase", p)
+show("pad(left=1, top=1, right=1, bottom=1)", p.pad(left=1, top=1, right=1, bottom=1))
+
+# ---------------------------------------------------------------------------
+# Replace
+# ---------------------------------------------------------------------------
+
+show("\nbase", p)
+show("replace('B', 'X')", p.replace("B", "X"))
+
+# ---------------------------------------------------------------------------
+# used_symbols
+# ---------------------------------------------------------------------------
+
+print(f"\nbase.used_symbols() -> {p.used_symbols()}")
+
+# ---------------------------------------------------------------------------
+# Method chaining — order matters
+#
+# pad() extends the current grid with whatever cells already exist at each
+# edge, so the same three pads applied in different orders produce very
+# different results.
+#
+# Sequence A: grow left/right first, then top/bottom spans the full width.
+# Sequence B: grow top/bottom first, then left/right spans the full height.
+# ---------------------------------------------------------------------------
+
+base = cc.CellPattern("AB;AB")
+
+print("\nbase:")
+print(base)
+
+a = base.pad(left=4, value="-").pad(right=4, value="+").pad(top=4, bottom=4, value="|")
+print("\npad(left=4, '-')  →  pad(right=4, '+')  →  pad(top=4, bottom=4, '|'):")
+print(a)
+
+b = base.pad(top=4, bottom=4, value="|").pad(left=4, value="-").pad(right=4, value="+")
+print("\npad(top=4, bottom=4, '|')  →  pad(left=4, '-')  →  pad(right=4, '+'):")
+print(b)

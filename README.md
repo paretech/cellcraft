@@ -39,9 +39,9 @@ checker = cc.CellPattern("""
 # Tile it into a 4×4 grid
 checker_4x4 = checker.tile(2, 2)
 
-# Rotate an L-shape clockwise
+# Rotate an L-shape counterclockwise
 L = cc.CellPattern("X_;XX")
-L_cw = L.rot90(1)   # clockwise 90°
+L_ccw = L.rot90(1)   # counterclockwise 90°
 
 # Other transforms (all return new objects)
 checker.flip_x()
