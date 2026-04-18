@@ -2,7 +2,7 @@
 
 ## 2026-04-17 Initial Repo
 
-### Prompt
+### Initial Prompt
 
 This is the first session for a Python package named "CellCraft". See @file:README.md for project context.
 
@@ -40,3 +40,7 @@ After making changes, provide a short summary of:
 1. files created
 2. any small deviations from the implementation plan
 3. anything I should decide before the next session
+
+### Created a command
+
+Created .claude/commands/implement-milestone.md. You can now run /implement-milestone 1 (or any milestone number 1–6) and Claude will read the plan, implement the milestone's scope, write tests, update the example, and report any spec ambiguities before finishing.
