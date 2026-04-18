@@ -31,8 +31,10 @@ Full API specification and implementation roadmap are in [docs/design/](docs/des
 ## Code quality
 
 - Python 3.12+
-- Python unittest
-- ruff
+- `python -m unittest` (no pytest). Run tests with: `python -m unittest discover -s tests -v`
+- ruff. Run linter with: `ruff check cellcraft/ tests/`
+- mypy for type checking
+- Assumes the project venv is activated before running these commands.
 - Keep modules focused and small.
 - Favor immutable return-new-object behavior for transforms where practical.
 

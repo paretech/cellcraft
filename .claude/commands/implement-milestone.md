@@ -1,3 +1,5 @@
+# Implement Milestone
+
 Implement the CellCraft milestone specified in the argument (e.g. `/implement-milestone 1`).
 
 ## Steps
@@ -9,7 +11,7 @@ Implement the CellCraft milestone specified in the argument (e.g. `/implement-mi
 5. Write tests in the corresponding `tests/test_*.py` file(s) covering every behavioral rule stated in the plan.
 6. Add or update the relevant example script in `examples/` to demonstrate the new API.
 7. Update `README.md` if the quickstart or usage section needs to reflect the new capability.
-8. Run `python -m pytest tests/ -v`, linters, and fix any failures before finishing.
+8. Run `python -m unittest discover -s tests -v`, then `ruff check cellcraft/ tests/`, and fix any failures before finishing. Assumes the project venv is activated.
 
 ## Rules
 
@@ -25,6 +27,7 @@ Implement the CellCraft milestone specified in the argument (e.g. `/implement-mi
 ## Deliverable
 
 After completing the milestone, report:
+
 1. Which files were changed and why.
 2. The test command output (pass/fail summary).
 3. Anything that diverges from the plan, and why.
