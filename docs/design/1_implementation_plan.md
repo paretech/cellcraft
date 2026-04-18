@@ -5,7 +5,7 @@ Here is a concrete implementation plan for developing the Python library known a
 ## 1. Initial repository layout
 
 ```text
-cell_patterns/
+cellcraft/
     __init__.py
     errors.py
     types.py
