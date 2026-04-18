@@ -38,6 +38,10 @@ test: venv ## Run the test suite
 lint: venv ## Check code style with ruff
 	$(RUFF) check cellcraft/ tests/
 
+.PHONY: format
+format: venv ## Format code with ruff
+	$(RUFF) format cellcraft/ tests/
+
 .PHONY: format-check
 format-check: venv ## Check formatting without making changes
 	$(RUFF) format --check cellcraft/ tests/
@@ -50,8 +54,11 @@ typecheck: venv ## Run static type checking with mypy
 check: lint format-check typecheck test ## Run all quality gates
 
 .PHONY: example
-example: venv ## Run example_01_patterns.py
+example: venv ## Run all example scripts in order
 	$(PY) examples/example_01_patterns.py
+	$(PY) examples/example_02_canvas_render.py
+	$(PY) examples/example_03_scene_1024x768.py
+	$(PY) examples/example_04_export_sequence.py
 
 .PHONY: clean
 clean: ## Remove the virtual environment and cache directories

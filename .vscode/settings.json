@@ -9,6 +9,10 @@
     }
   },
   "cSpell.words": [
-    "cellcraft"
+    "cellcraft",
+    "MYPY",
+    "pycache",
+    "pyproject",
+    "venv"
   ]
 }

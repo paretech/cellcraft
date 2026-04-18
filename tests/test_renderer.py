@@ -2,9 +2,6 @@
 
 import unittest
 
-from cellcraft.render import PatternRenderer
-from cellcraft.errors import PaletteError
-
 
 class TestPatternRenderer(unittest.TestCase):
     pass

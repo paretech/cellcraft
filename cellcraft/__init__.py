@@ -1,6 +1,7 @@
 """CellCraft: symbolic cell-based pattern generation and raster composition."""
 
 from cellcraft.errors import (
+    DimensionError,
     PaletteError,
     PatternParseError,
     PatternShapeError,
@@ -18,6 +19,7 @@ __all__ = [
     "PatternRenderer",
     "RasterLayer",
     "Scene",
+    "DimensionError",
     "PaletteError",
     "PatternParseError",
     "PatternShapeError",

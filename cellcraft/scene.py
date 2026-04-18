@@ -13,7 +13,9 @@ class RasterLayer:
 class Scene:
     """Composes multiple RasterLayers into a final image."""
 
-    def __init__(self, width: int, height: int, background: tuple[int, int, int, int] = (0, 0, 0, 255)) -> None:
+    def __init__(
+        self, width: int, height: int, background: tuple[int, int, int, int] = (0, 0, 0, 255)
+    ) -> None:
         raise NotImplementedError
 
     def add(self, layer: RasterLayer) -> None:

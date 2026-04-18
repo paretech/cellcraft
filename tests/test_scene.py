@@ -2,8 +2,6 @@
 
 import unittest
 
-from cellcraft.scene import RasterLayer, Scene
-
 
 class TestScene(unittest.TestCase):
     pass

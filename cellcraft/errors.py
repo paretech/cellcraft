@@ -1,8 +1,19 @@
 """Custom exceptions for CellCraft."""
 
 
+class DimensionError(ValueError): ...
+
+
 class PatternParseError(ValueError): ...
+
+
 class PatternShapeError(ValueError): ...
+
+
 class PaletteError(ValueError): ...
+
+
 class PlacementError(ValueError): ...
+
+
 class TransformError(ValueError): ...

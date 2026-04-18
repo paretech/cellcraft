@@ -53,6 +53,23 @@ checker.used_symbols()  # -> {"A", "B"}
 
 See [`examples/example_01_patterns.py`](examples/example_01_patterns.py) for a runnable walkthrough of all pattern operations.
 
+### Logical canvas composition
+
+```python
+# Compose a tiled checker onto a larger canvas
+checker = cc.CellPattern("AB;BA").tile(2, 2)
+canvas = cc.LogicalCanvas(8, 8, fill=".")
+canvas.place(checker, x=2, y=2)
+
+# Use transparent_symbol to skip cells when placing
+L = cc.CellPattern("X_;XX")
+canvas.place(L, x=0, y=0, transparent_symbol="_")
+
+canvas.used_symbols()  # -> {".", "A", "B", "X"}
+```
+
+See [`examples/example_02_canvas_render.py`](examples/example_02_canvas_render.py) for a runnable walkthrough of canvas composition.
+
 ---
 
 ## Development setup

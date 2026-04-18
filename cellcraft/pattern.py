@@ -68,15 +68,12 @@ class CellPattern:
             raise PatternParseError(f"Unsupported input type: {type(data)}")
 
     def __str__(self) -> str:
-        return "\n".join(
-            " ".join(c if c is not None else "·" for c in row)
-            for row in self._grid
-        )
+        return "\n".join(" ".join(c if c is not None else "·" for c in row) for row in self._grid)
 
     def __repr__(self) -> str:
         if any(cell is None for row in self._grid for cell in row):
             return f"CellPattern({self._grid!r})"
-        return 'CellPattern("' + ";".join("".join(row) for row in self._grid) + '")'
+        return 'CellPattern("' + ";".join("".join(str(c) for c in row) for row in self._grid) + '")'
 
     @property
     def width(self) -> int:
