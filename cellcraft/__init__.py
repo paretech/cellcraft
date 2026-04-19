@@ -1,5 +1,7 @@
 """CellCraft: symbolic cell-based pattern generation and raster composition."""
 
+from cellcraft.types import OverflowMode
+
 from cellcraft.errors import (
     DimensionError,
     PaletteError,
@@ -19,6 +21,7 @@ __all__ = [
     "PatternRenderer",
     "RasterLayer",
     "Scene",
+    "OverflowMode",
     "DimensionError",
     "PaletteError",
     "PatternParseError",

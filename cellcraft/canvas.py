@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from cellcraft.errors import DimensionError, PlacementError
 from cellcraft.pattern import CellPattern
-from cellcraft.types import Symbol
+from cellcraft.types import OverflowMode, Symbol
 
 
 class LogicalCanvas:
@@ -53,6 +53,7 @@ class LogicalCanvas:
         x: int,
         y: int,
         transparent_symbol: Symbol = None,
+        overflow: OverflowMode = "error",
     ) -> "LogicalCanvas":
         src = obj.grid
         src_h = obj.height
@@ -64,10 +65,11 @@ class LogicalCanvas:
             y = self._height + y
 
         if x < 0 or y < 0 or x + src_w > self._width or y + src_h > self._height:
-            raise PlacementError(
-                f"Placement of {src_w}x{src_h} object at ({x}, {y}) "
-                f"is out of bounds for canvas {self._width}x{self._height}"
-            )
+            if overflow == "error":
+                raise PlacementError(
+                    f"Placement of {src_w}x{src_h} object at ({x}, {y}) "
+                    f"is out of bounds for canvas {self._width}x{self._height}"
+                )
 
         for row_i in range(src_h):
             for col_i in range(src_w):

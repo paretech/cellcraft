@@ -228,5 +228,47 @@ class TestLogicalCanvasBounds(unittest.TestCase):
         assert canvas.grid == [["A", "B"], ["B", "A"]]
 
 
+class TestLogicalCanvasOverflow(unittest.TestCase):
+    def test_clip_right_edge(self) -> None:
+        canvas = LogicalCanvas(4, 2, fill=".")
+        canvas.place(CellPattern("AB;AB"), x=3, y=0, overflow="clip")
+        assert canvas.grid == [[".", ".", ".", "A"], [".", ".", ".", "A"]]
+
+    def test_clip_bottom_edge(self) -> None:
+        canvas = LogicalCanvas(2, 4, fill=".")
+        canvas.place(CellPattern("AB;AB"), x=0, y=3, overflow="clip")
+        assert canvas.grid == [[".", "."], [".", "."], [".", "."], ["A", "B"]]
+
+    def test_clip_top_left_corner(self) -> None:
+        # Placed at (-1, -1): only src[1][1]="A" lands in bounds at canvas (0, 0).
+        canvas = LogicalCanvas(4, 4, fill=".")
+        canvas.place(CellPattern("AB;BA"), x=-1, y=-1, overflow="clip")
+        assert canvas.grid == [
+            ["A", ".", ".", "."],
+            [".", ".", ".", "."],
+            [".", ".", ".", "."],
+            [".", ".", ".", "."],
+        ]
+
+    def test_clip_fully_outside_is_noop(self) -> None:
+        canvas = LogicalCanvas(4, 4, fill=".")
+        canvas.place(CellPattern("AB;BA"), x=10, y=10, overflow="clip")
+        assert canvas.grid == [[".", ".", ".", "."] for _ in range(4)]
+
+    def test_clip_respects_transparent_symbol(self) -> None:
+        canvas = LogicalCanvas(3, 2, fill=".")
+        canvas.place(CellPattern("X_;XX"), x=2, y=0, overflow="clip", transparent_symbol="_")
+        assert canvas.grid == [[".", ".", "X"], [".", ".", "X"]]
+
+    def test_error_mode_still_raises(self) -> None:
+        canvas = LogicalCanvas(4, 4, fill=".")
+        with self.assertRaises(PlacementError):
+            canvas.place(CellPattern("AB;BA"), x=3, y=0, overflow="error")
+
+    def test_default_is_error_mode(self) -> None:
+        canvas = LogicalCanvas(4, 4, fill=".")
+        with self.assertRaises(PlacementError):
+            canvas.place(CellPattern("AB;BA"), x=3, y=0)
+
 if __name__ == "__main__":
     unittest.main()
