@@ -121,4 +121,4 @@ When placing with overflow="clip":
 ## Future Feature Ideas
 
 [ ] Modify LogicalCanvas to accept overflow policy (e.g. error, clip)
-[ ] LogicalAssembly object. Allows for placement of patterns while deferring mutating cells. Allows for enable/disable individual placements, auditing what was placed, re-rendering with different policies later, late clipping/cropping, tags/names, grouping, z-order, visibility.
+[ ] LogicalAssembly object. Allows for placement of patterns while deferring mutating cells. Allows for enable/disable individual placements, auditing what was placed, re-rendering with different policies later, late clipping/cropping, tags/names, grouping, z-order, visibility. Be sure to support negative indexing

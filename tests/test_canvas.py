@@ -3,8 +3,8 @@
 import unittest
 
 from cellcraft.canvas import LogicalCanvas
-from cellcraft.pattern import CellPattern
 from cellcraft.errors import DimensionError, PlacementError
+from cellcraft.pattern import CellPattern
 
 
 class TestLogicalCanvasStrRepr(unittest.TestCase):
@@ -176,15 +176,6 @@ class TestLogicalCanvasChaining(unittest.TestCase):
         assert canvas.grid[0][0] == "A"
         assert canvas.grid[3][3] == "B"
 
-    def test_chain_with_negative_index(self) -> None:
-        canvas = (
-            LogicalCanvas(4, 4, fill=".")
-            .place(CellPattern("A"), x=0, y=0)
-            .place(CellPattern("B"), x=-1, y=-1)
-        )
-        assert canvas.grid[0][0] == "A"
-        assert canvas.grid[3][3] == "B"
-
 
 class TestLogicalCanvasBounds(unittest.TestCase):
     def test_out_of_bounds_x_raises(self) -> None:
@@ -197,30 +188,15 @@ class TestLogicalCanvasBounds(unittest.TestCase):
         with self.assertRaises(PlacementError):
             canvas.place(CellPattern("AB;BA"), x=0, y=3)
 
-    def test_negative_x_wraps(self) -> None:
-        canvas = LogicalCanvas(4, 2, fill=".")
-        canvas.place(CellPattern("AB"), x=-2, y=0)
-        assert canvas.grid == [[".", ".", "A", "B"], [".", ".", ".", "."]]
-
-    def test_negative_y_wraps(self) -> None:
-        canvas = LogicalCanvas(2, 4, fill=".")
-        canvas.place(CellPattern("A;B"), x=0, y=-2)
-        assert canvas.grid == [[".", "."], [".", "."], ["A", "."], ["B", "."]]
-
-    def test_negative_xy_flush_corner(self) -> None:
-        canvas = LogicalCanvas(4, 4, fill=".")
-        canvas.place(CellPattern("AB;BA"), x=-2, y=-2)
-        assert canvas.grid == [
-            [".", ".", ".", "."],
-            [".", ".", ".", "."],
-            [".", ".", "A", "B"],
-            [".", ".", "B", "A"],
-        ]
-
-    def test_negative_out_of_bounds_raises(self) -> None:
+    def test_negative_x_raises(self) -> None:
         canvas = LogicalCanvas(4, 4, fill=".")
         with self.assertRaises(PlacementError):
-            canvas.place(CellPattern("AB;BA"), x=-100, y=0)
+            canvas.place(CellPattern("AB;BA"), x=-1, y=0)
+
+    def test_negative_y_raises(self) -> None:
+        canvas = LogicalCanvas(4, 4, fill=".")
+        with self.assertRaises(PlacementError):
+            canvas.place(CellPattern("AB;BA"), x=0, y=-1)
 
     def test_exact_fit_does_not_raise(self) -> None:
         canvas = LogicalCanvas(2, 2, fill=".")
@@ -269,6 +245,7 @@ class TestLogicalCanvasOverflow(unittest.TestCase):
         canvas = LogicalCanvas(4, 4, fill=".")
         with self.assertRaises(PlacementError):
             canvas.place(CellPattern("AB;BA"), x=3, y=0)
+
 
 if __name__ == "__main__":
     unittest.main()

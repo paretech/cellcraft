@@ -59,11 +59,6 @@ class LogicalCanvas:
         src_h = obj.height
         src_w = obj.width
 
-        if x < 0:
-            x = self._width + x
-        if y < 0:
-            y = self._height + y
-
         if x < 0 or y < 0 or x + src_w > self._width or y + src_h > self._height:
             if overflow == "error":
                 raise PlacementError(
@@ -72,12 +67,18 @@ class LogicalCanvas:
                 )
 
         for row_i in range(src_h):
+            dst_y = y + row_i
+            if dst_y < 0 or dst_y >= self._height:
+                continue
             for col_i in range(src_w):
+                dst_x = x + col_i
+                if dst_x < 0 or dst_x >= self._width:
+                    continue
                 cell = src[row_i][col_i]
                 if cell is None:
                     continue
                 if transparent_symbol is not None and cell == transparent_symbol:
                     continue
-                self._grid[y + row_i][x + col_i] = cell
+                self._grid[dst_y][dst_x] = cell
 
         return self
