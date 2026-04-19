@@ -208,22 +208,22 @@ class TestReplace(unittest.TestCase):
         assert p.replace("A", "X") is not p
 
 
-class TestUsedSymbols(unittest.TestCase):
+class TestSymbols(unittest.TestCase):
     def test_basic_symbols(self):
         p = CellPattern("AB;BA")
-        assert p.used_symbols() == {"A", "B"}
+        assert p.symbols == {"A", "B"}
 
     def test_excludes_none(self):
         p = CellPattern([["A", None], [None, "B"]])
-        assert p.used_symbols() == {"A", "B"}
+        assert p.symbols == {"A", "B"}
 
     def test_single_symbol(self):
         p = CellPattern("AAA;AAA")
-        assert p.used_symbols() == {"A"}
+        assert p.symbols == {"A"}
 
     def test_underscore_is_a_symbol(self):
         p = CellPattern("X_;XX")
-        assert p.used_symbols() == {"X", "_"}
+        assert p.symbols == {"X", "_"}
 
 
 if __name__ == "__main__":

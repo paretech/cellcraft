@@ -1,6 +1,6 @@
 """Example 01: Define and inspect basic CellPatterns.
 
-Demonstrates: parsing, rot90, flip_x, flip_y, tile, pad, replace, used_symbols.
+Demonstrates: parsing, rot90, flip_x, flip_y, tile, pad, replace, symbols.
 All transforms use the same base pattern (AB;CD) so the effect is easy to follow.
 """
 
@@ -78,10 +78,10 @@ show("\nbase", p)
 show("replace('B', 'X')", p.replace("B", "X"))
 
 # ---------------------------------------------------------------------------
-# used_symbols
+# symbols
 # ---------------------------------------------------------------------------
 
-print(f"\nbase.used_symbols() -> {p.used_symbols()}")
+print(f"\nbase.symbols -> {p.symbols}")
 
 # ---------------------------------------------------------------------------
 # Method chaining — order matters

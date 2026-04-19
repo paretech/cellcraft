@@ -1,6 +1,6 @@
 """Example 02: Compose patterns on a LogicalCanvas.
 
-Demonstrates: LogicalCanvas, place(), transparent_symbol, used_symbols.
+Demonstrates: LogicalCanvas, place(), transparent_symbol, symbols.
 """
 
 import cellcraft as cc
@@ -50,9 +50,9 @@ outer.place(inner, x=2, y=2)
 show_canvas("\nLogicalCanvas placed onto LogicalCanvas", outer)
 
 # ---------------------------------------------------------------------------
-# used_symbols
+# symbols
 # ---------------------------------------------------------------------------
 
 canvas4 = cc.LogicalCanvas(6, 6, fill=".")
 canvas4.place(cc.CellPattern("AB;BA").tile(2, 2), x=1, y=1)
-print(f"\nused_symbols: {sorted(canvas4.used_symbols())}")
+print(f"\nsymbols: {sorted(canvas4.symbols)}")

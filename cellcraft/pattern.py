@@ -146,7 +146,8 @@ class CellPattern:
         result._grid = [[new if cell == old else cell for cell in row] for row in self._grid]
         return result
 
-    def used_symbols(self) -> set[str]:
+    @property
+    def symbols(self) -> set[str]:
         """Return the set of non-None symbols present in the grid."""
         symbols: set[str] = set()
         for row in self._grid:

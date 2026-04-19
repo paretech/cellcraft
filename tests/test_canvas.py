@@ -59,32 +59,36 @@ class TestLogicalCanvasConstructor(unittest.TestCase):
         assert canvas.grid[0][0] == "."
 
 
-class TestLogicalCanvasClear(unittest.TestCase):
-    def test_clear_restores_fill(self) -> None:
+class TestLogicalCanvasFill(unittest.TestCase):
+    def test_fill_resets_grid(self) -> None:
         canvas = LogicalCanvas(2, 2, fill=".")
         canvas._grid[0][0] = "A"
-        canvas.clear(".")
+        canvas.fill(".")
         assert canvas.grid == [[".", "."], [".", "."]]
 
-    def test_clear_with_different_fill(self) -> None:
+    def test_fill_with_different_symbol(self) -> None:
         canvas = LogicalCanvas(2, 2, fill=".")
-        canvas.clear("X")
+        canvas.fill("X")
         assert canvas.grid == [["X", "X"], ["X", "X"]]
 
-
-class TestLogicalCanvasUsedSymbols(unittest.TestCase):
-    def test_used_symbols_after_fill(self) -> None:
+    def test_fill_returns_self(self) -> None:
         canvas = LogicalCanvas(2, 2, fill=".")
-        assert canvas.used_symbols() == {"."}
+        assert canvas.fill("X") is canvas
 
-    def test_used_symbols_excludes_none(self) -> None:
+
+class TestLogicalCanvasSymbols(unittest.TestCase):
+    def test_symbols_after_fill(self) -> None:
+        canvas = LogicalCanvas(2, 2, fill=".")
+        assert canvas.symbols == {"."}
+
+    def test_symbols_excludes_none(self) -> None:
         canvas = LogicalCanvas(2, 2, fill=None)
-        assert canvas.used_symbols() == set()
+        assert canvas.symbols == set()
 
-    def test_used_symbols_after_place(self) -> None:
+    def test_symbols_after_place(self) -> None:
         canvas = LogicalCanvas(4, 4, fill=".")
         canvas.place(CellPattern("AB;BA"), x=0, y=0)
-        assert canvas.used_symbols() == {".", "A", "B"}
+        assert canvas.symbols == {".", "A", "B"}
 
 
 class TestLogicalCanvasPlace(unittest.TestCase):

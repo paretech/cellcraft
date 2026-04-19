@@ -94,3 +94,31 @@ When done:
 - add the Makefile
 - update README only if needed so the documented commands match the Makefile
 - summarize the targets you created and any assumptions
+
+## 2026-04-19 Review of Milestone 2
+
+- Logical Canvas is bounded to dimension and raises exception when placing patterns that exceed the bounding area. This feels overly rigid to me. I would recommend adding an "overflow" argument that accepts either "error" or "clip". "Error" is the present implementation and should remain the default, "clip" is alternate option that will silently crop the resulting patter composition to the bounding area. The addition of overflow could be expanded later to include options like "expand" that would auto grow the canvas size.
+
+Modify LogicalCanvas.place method by adding an overflow mode. The overflow mode can be specified as an argument to the place method. By default, the overflow method should be "error" but there should also be an option for "clip".
+
+```python
+OverflowMode = Literal["error", "clip"]
+```
+
+"Error" matches the current implementation by raising a PlacementError if the placed pattern exceeds the canvas bounding area. This is a safe default but can seem overly restrictive.
+
+"clip" overflow mode allows patterns to be placed within, on, or outside the canvas space without raising an exception. Clip mode is not the default and must be explicitly passed.
+
+## semantics for clip
+
+When placing with overflow="clip":
+
+- compute intersection of source placement region with canvas bounds
+- copy only intersecting cells
+- still respect transparency rules
+- no error if placement is fully outside; either no-op or return False
+
+## Future Feature Ideas
+
+[ ] Modify LogicalCanvas to accept overflow policy (e.g. error, clip)
+[ ] LogicalAssembly object. Allows for placement of patterns while deferring mutating cells. Allows for enable/disable individual placements, auditing what was placed, re-rendering with different policies later, late clipping/cropping, tags/names, grouping, z-order, visibility.

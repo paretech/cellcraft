@@ -15,7 +15,7 @@ class LogicalCanvas:
             raise DimensionError(f"Canvas dimensions must be positive, got {width}x{height}")
         self._width = width
         self._height = height
-        self._grid: list[list[Symbol]] = [[fill] * width for _ in range(height)]
+        self.fill(fill)
 
     def __str__(self) -> str:
         return "\n".join(" ".join(c if c is not None else "·" for c in row) for row in self._grid)
@@ -39,10 +39,12 @@ class LogicalCanvas:
     def grid(self) -> list[list[Symbol]]:
         return [row[:] for row in self._grid]
 
-    def clear(self, fill: Symbol = ".") -> None:
+    def fill(self, fill: Symbol) -> "LogicalCanvas":
         self._grid = [[fill] * self._width for _ in range(self._height)]
+        return self
 
-    def used_symbols(self) -> set[str]:
+    @property
+    def symbols(self) -> set[str]:
         return {cell for row in self._grid for cell in row if cell is not None}
 
     def place(
